@@ -1,0 +1,52 @@
+ports:
+  - protocol: "HTTPS"
+    targetProtocol: "HTTP"
+    listeningPort: "443"
+    targetPort: "17170"
+    targetIP: "172.17.0.1"
+    public: true
+    path: "/"
+    isAuth: false
+environments:
+  - key: "ADMIN_EMAIL"
+    value: "[EMAIL]"
+  - key: "ADMIN_PASSWORD"
+    value: "random_password"
+  - key: LLDAP_SMTP_OPTIONS_ENABLE_PASSWORD_RESET
+    value: true
+  - key: LLDAP_SMTP_OPTIONS_SERVER
+    value: "smtp.gmail.com"
+  - key: "LLDAP_SMTP_OPTIONS_USER"
+    value: "random@random.com"
+  - key: "LLDAP_SMTP_OPTIONS_PASSWORD"
+    value: "random"
+  - key: "LLDAP_SMTP_OPTIONS_PORT"
+    value: "587"
+  - key: "LLDAP_SMTP_OPTIONS_SMTP_ENCRYPTION"
+    value: "TLS"
+  - key: "LLDAP_HTTP_URL"
+    value: "https://[CI_CD_DOMAIN]"
+  - key: "SOFTWARE_VERSION_TAG"
+    value: "stable"
+config:
+  runTime: "dockerCompose"
+  version: ""
+  framework: ""
+  buildCommand: "docker-compose build"
+  buildDir: "/"
+  runCommand: "docker-compose up -d"
+  icon: ""
+  screenshot: "lldap.png"
+lifeCycleConfig:
+  preInstallCommand: "./scripts/preInstall.sh"
+  postInstallCommand: "./scripts/postInstall.sh"
+  preBackupCommand: "./scripts/preBackup.sh"
+  postBackupCommand: "./scripts/postBackup.sh"
+  preRestoreCommand: "./scripts/preRestore.sh"
+  postRestoreCommand: "./scripts/postRestore.sh"
+  postDeployCommand: "./scripts/postDeploy.sh"
+webUI:
+  - url: "https://[CI_CD_DOMAIN]"
+    label: "Light LDAP Admin"
+    login: "admin"
+    password: "[ADMIN_PASSWORD]"
